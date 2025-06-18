@@ -73,6 +73,71 @@ class WindowController:
         return control.get_value()
 
 
+def create_hello_world_document():
+    """Basic use case: Create a Hello World document using Notepad."""
+    if not PYWINAUTO_AVAILABLE:
+        print("Error: pywinauto is not available.")
+        return False
+    
+    try:
+        print("Creating Hello World document using pywinauto...")
+        
+        # Start Notepad
+        app = Application().start("notepad.exe")
+        print("✓ Notepad started")
+        
+        # Get the main window
+        notepad = app.UntitledNotepad  # Notepad's default window
+        
+        # Type Hello World text
+        notepad.Edit.type_keys("Hello World from pywinauto automation!\n\n")
+        notepad.Edit.type_keys("This document was created automatically using Python and pywinauto.\n")
+        notepad.Edit.type_keys("Date: {}\n".format(time.strftime("%Y-%m-%d %H:%M:%S")))
+        print("✓ Text typed into Notepad")
+        
+        # Save the file
+        notepad.menu_select("File->Save As")
+        time.sleep(1)  # Wait for Save As dialog
+        
+        # Get Save As dialog
+        save_dialog = app.SaveAs
+        
+        # Get Downloads folder path
+        downloads_path = os.path.join(os.path.expanduser("~"), "Downloads")
+        file_path = os.path.join(downloads_path, "hello_world_pywinauto.txt")
+        
+        # Type the file path
+        save_dialog.ComboBox.type_keys(file_path)
+        print(f"✓ File path set to: {file_path}")
+        
+        # Click Save button
+        save_dialog.Save.click()
+        time.sleep(1)  # Wait for save to complete
+        print("✓ File saved successfully")
+        
+        # Close Notepad
+        notepad.close()
+        print("✓ Notepad closed")
+        
+        # Verify file was created
+        if os.path.exists(file_path):
+            print(f"✓ Success! File created at: {file_path}")
+            return True
+        else:
+            print("✗ File was not created successfully")
+            return False
+            
+    except Exception as e:
+        print(f"✗ Error creating document: {e}")
+        try:
+            # Try to close Notepad if it's still open
+            app = Application().connect(title_re=".*Notepad")
+            app.top_window().close()
+        except:
+            pass
+        return False
+
+
 def main():
     """Main entry point for pywinauto automation."""
     print("Windows Automation using pywinauto")
@@ -82,6 +147,16 @@ def main():
         return
     
     try:
+        # Run the basic use case
+        print("\n=== Basic Use Case: Create Hello World Document ===")
+        success = create_hello_world_document()
+        
+        if success:
+            print("\n🎉 Basic use case completed successfully!")
+        else:
+            print("\n💥 Basic use case failed!")
+        
+        print("\n=== Desktop Windows Information ===")
         app_manager = ApplicationManager()
         windows = app_manager.get_desktop_windows()
         

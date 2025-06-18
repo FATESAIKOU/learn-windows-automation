@@ -63,6 +63,9 @@ win32-automation
 
 # pywinauto automation
 pywinauto-automation
+
+# Interactive demo (recommended for beginners)
+windows-automation-demo
 ```
 
 ### Programmatic Usage
@@ -81,6 +84,67 @@ from learn_windows_automation.pywinauto import ApplicationManager
 
 am = ApplicationManager()
 app = am.connect_by_title("Calculator")
+```
+
+## Interactive Demo
+
+For an interactive experience, run the demo script:
+
+```bash
+uv run python demo.py
+```
+
+This will present a menu where you can:
+1. Run the Win32 Hello World demo
+2. Run the pywinauto Hello World demo  
+3. Run both demos
+4. Exit
+
+The demo will create text files in your Downloads folder demonstrating both automation approaches.
+
+## Basic Use Cases
+
+Both backends include a basic "Hello World" demonstration that creates a text document in your Downloads folder:
+
+### Win32 Backend Hello World
+
+```bash
+# Run win32 automation with Hello World demo
+uv run python -c "from learn_windows_automation.win32 import main; main()"
+```
+
+This will:
+
+- Create a text file `hello_world_win32.txt` in your Downloads folder
+- Open it in Notepad using win32 API calls
+- Demonstrate window management and file operations
+
+### Pywinauto Backend Hello World
+
+```bash
+# Run pywinauto automation with Hello World demo  
+uv run python -c "from learn_windows_automation.pywinauto import main; main()"
+```
+
+This will:
+
+- Launch Notepad using pywinauto
+- Type "Hello World" content automatically
+- Save the file as `hello_world_pywinauto.txt` in Downloads
+- Demonstrate high-level application automation
+
+### Individual Use Cases
+
+You can also run just the Hello World functions:
+
+```python
+# Win32 approach
+from learn_windows_automation.win32 import create_hello_world_document
+success = create_hello_world_document()
+
+# Pywinauto approach  
+from learn_windows_automation.pywinauto import create_hello_world_document
+success = create_hello_world_document()
 ```
 
 ## Development

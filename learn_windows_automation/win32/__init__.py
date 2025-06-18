@@ -14,6 +14,10 @@ try:
 except ImportError:
     PYWIN32_AVAILABLE = False
 
+import os
+import time
+import subprocess
+
 
 class WindowManager:
     """Manage Windows using pywin32."""
@@ -52,6 +56,81 @@ class WindowManager:
         win32gui.SetForegroundWindow(hwnd)
 
 
+def create_hello_world_document():
+    """Basic use case: Create a Hello World document using win32 API."""
+    if not PYWIN32_AVAILABLE:
+        print("Error: pywin32 is not available. This tool requires Windows.")
+        return False
+    
+    try:
+        print("Creating Hello World document using win32 API...")
+        
+        # Start Notepad using subprocess
+        process = subprocess.Popen(['notepad.exe'])
+        time.sleep(2)  # Wait for Notepad to start
+        print("✓ Notepad started")
+        
+        # Find Notepad window
+        wm = WindowManager()
+        notepad_hwnd = None
+        
+        # Try to find Notepad window (it might be "Untitled - Notepad" or similar)
+        windows = wm.get_all_windows()
+        for hwnd, title in windows:
+            if "Notepad" in title and ("Untitled" in title or title == "Notepad"):
+                notepad_hwnd = hwnd
+                break
+        
+        if not notepad_hwnd:
+            print("✗ Could not find Notepad window")
+            return False
+        
+        print(f"✓ Found Notepad window: HWND {notepad_hwnd}")
+        
+        # Bring Notepad to front
+        wm.bring_window_to_front(notepad_hwnd)
+        time.sleep(0.5)
+        
+        # Create the content directly as a file (since win32 API text input is complex)
+        downloads_path = os.path.join(os.path.expanduser("~"), "Downloads")
+        file_path = os.path.join(downloads_path, "hello_world_win32.txt")
+        
+        content = f"""Hello World from win32 automation!
+
+This document was created automatically using Python and win32 API.
+Date: {time.strftime("%Y-%m-%d %H:%M:%S")}
+
+This demonstrates basic Windows automation using low-level win32 APIs:
+- Finding windows by title
+- Bringing windows to front
+- File operations
+- Process management
+"""
+        
+        # Write content to file
+        with open(file_path, 'w', encoding='utf-8') as f:
+            f.write(content)
+        print(f"✓ File created at: {file_path}")
+        
+        # Now open the file in Notepad
+        subprocess.run(['notepad.exe', file_path])
+        print("✓ File opened in Notepad")
+        
+        # Close the original empty Notepad
+        try:
+            win32gui.PostMessage(notepad_hwnd, win32con.WM_CLOSE, 0, 0)
+            print("✓ Original empty Notepad closed")
+        except:
+            pass
+        
+        print(f"✓ Success! File created and opened at: {file_path}")
+        return True
+        
+    except Exception as e:
+        print(f"✗ Error creating document: {e}")
+        return False
+
+
 def main():
     """Main entry point for win32 automation."""
     print("Windows Automation using pywin32")
@@ -61,6 +140,16 @@ def main():
         return
     
     try:
+        # Run the basic use case
+        print("\n=== Basic Use Case: Create Hello World Document ===")
+        success = create_hello_world_document()
+        
+        if success:
+            print("\n🎉 Basic use case completed successfully!")
+        else:
+            print("\n💥 Basic use case failed!")
+        
+        print("\n=== Window Information ===")
         wm = WindowManager()
         windows = wm.get_all_windows()
         

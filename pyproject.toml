@@ -42,6 +42,7 @@ dev = [
 [project.scripts]
 win32-automation = "learn_windows_automation.win32_automation:main"
 pywinauto-automation = "learn_windows_automation.pywinauto_automation:main"
+windows-automation-demo = "demo:main"
 
 [project.urls]
 Homepage = "https://github.com/yourusername/learn-windows-automation"
