@@ -11,39 +11,39 @@ from io import StringIO
 class TestMainEntryPoints(unittest.TestCase):
     """Test main entry points."""
     
-    @patch('learn_windows_automation.win32.main')
-    @patch('sys.argv', ['main.py', 'win32'])
+    @patch('main.win32_main')
     def test_main_with_win32_backend(self, mock_win32_main):
         """Test main function with win32 backend."""
-        from main import main
-        
-        # Capture output
-        with patch('sys.stdout', new_callable=StringIO) as mock_stdout:
-            main()
-        
-        # Check that win32 main was called
-        mock_win32_main.assert_called_once()
-        
-        # Check output
-        output = mock_stdout.getvalue()
-        self.assertIn("Starting Win32 automation...", output)
+        with patch('sys.argv', ['main.py', 'win32']):
+            from main import main
+            
+            # Capture output
+            with patch('sys.stdout', new_callable=StringIO) as mock_stdout:
+                main()
+            
+            # Check that win32 main was called
+            mock_win32_main.assert_called_once()
+            
+            # Check output
+            output = mock_stdout.getvalue()
+            self.assertIn("Starting Win32 automation...", output)
     
-    @patch('learn_windows_automation.pywinauto.main')
-    @patch('sys.argv', ['main.py', 'pywinauto'])
+    @patch('main.pywinauto_main')
     def test_main_with_pywinauto_backend(self, mock_pywinauto_main):
         """Test main function with pywinauto backend."""
-        from main import main
-        
-        # Capture output
-        with patch('sys.stdout', new_callable=StringIO) as mock_stdout:
-            main()
-        
-        # Check that pywinauto main was called
-        mock_pywinauto_main.assert_called_once()
-        
-        # Check output
-        output = mock_stdout.getvalue()
-        self.assertIn("Starting pywinauto automation...", output)
+        with patch('sys.argv', ['main.py', 'pywinauto']):
+            from main import main
+            
+            # Capture output
+            with patch('sys.stdout', new_callable=StringIO) as mock_stdout:
+                main()
+            
+            # Check that pywinauto main was called
+            mock_pywinauto_main.assert_called_once()
+            
+            # Check output
+            output = mock_stdout.getvalue()
+            self.assertIn("Starting pywinauto automation...", output)
 
 
 class TestWin32Automation(unittest.TestCase):
