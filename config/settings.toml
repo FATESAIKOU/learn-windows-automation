@@ -1,0 +1,15 @@
+# Windows Automation Toolkit - Application Settings
+
+[logging]
+level = "INFO"
+format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+[paths]
+scripts_directory = "scripts"
+config_directory = "config"
+logs_directory = "logs"
+
+[execution]
+default_timeout = 300  # seconds
+capture_output = true
+show_progress = true

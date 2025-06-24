@@ -1,0 +1,22 @@
+# Windows Automation Toolkit - Scripts Configuration
+
+[scripts.simple_clipboard]
+path = "examples/simple_clipboard.py"
+enabled = true
+description = "Simple clipboard text manipulation example"
+category = "productivity"
+subcategory = "text_processing"
+
+[scripts.excel_report_generator]
+path = "examples/excel_report_generator.py"
+enabled = true
+description = "Generate reports from Excel data"
+category = "office"
+subcategory = "excel"
+
+[scripts.window_organizer]
+path = "examples/window_organizer.py"
+enabled = true
+description = "Organize windows on screen"
+category = "system"
+subcategory = "window_management"
