@@ -16,6 +16,11 @@ class ConfigurationError(AutomationError):
     pass
 
 
+class ScriptExecutionError(AutomationError):
+    """Raised when script execution fails."""
+    pass
+
+
 class WindowsAPIError(AutomationError):
     """Raised when Windows API calls fail."""
     pass

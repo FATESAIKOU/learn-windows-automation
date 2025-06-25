@@ -4,8 +4,8 @@ from typing import Annotated
 
 import typer
 
-from .core import ScriptManager, ConfigManager
-from .core.exceptions import ScriptNotFoundError, AutomationError
+from .core import ConfigManager, ScriptManager
+from .core.exceptions import AutomationError, ScriptNotFoundError
 
 app = typer.Typer(
     name="win-automation",
@@ -26,26 +26,29 @@ def run(
         args = []
 
     script_manager = ScriptManager()
-    
+
     try:
         typer.echo(f"Running script: {script_name}")
         if args:
             typer.echo(f"Arguments: {args}")
-        
+
         exit_code = script_manager.execute_script(script_name, args)
-        
+
         if exit_code == 0:
             typer.echo("Script completed successfully", color=typer.colors.GREEN)
         else:
-            typer.echo(f"Script failed with exit code: {exit_code}", color=typer.colors.RED)
+            typer.echo(
+                f"Script failed with exit code: {exit_code}",
+                color=typer.colors.RED,
+            )
             raise typer.Exit(exit_code)
-            
+
     except ScriptNotFoundError as e:
         typer.echo(f"Error: {e}", color=typer.colors.RED)
-        raise typer.Exit(1)
+        raise typer.Exit(1) from None
     except AutomationError as e:
         typer.echo(f"Execution error: {e}", color=typer.colors.RED)
-        raise typer.Exit(1)
+        raise typer.Exit(1) from None
 
 
 @app.command()
@@ -53,13 +56,13 @@ def list_scripts() -> None:
     """List all available user scripts."""
     script_manager = ScriptManager()
     config_manager = ConfigManager()
-    
+
     scripts = script_manager.discover_scripts()
-    
+
     if not scripts:
         typer.echo("No scripts found in configuration")
         return
-    
+
     typer.echo("Available scripts:")
     for script_name in scripts:
         script_info = config_manager.get_script_info(script_name)
@@ -67,7 +70,7 @@ def list_scripts() -> None:
             description = script_info.get("description", "No description")
             category = script_info.get("category", "uncategorized")
             enabled = script_info.get("enabled", True)
-            
+
             status = "✓" if enabled else "✗"
             typer.echo(f"  {status} {script_name} ({category}) - {description}")
 
@@ -79,15 +82,15 @@ def info(
     """Show detailed information about a script."""
     config_manager = ConfigManager()
     script_manager = ScriptManager()
-    
+
     script_info = config_manager.get_script_info(script_name)
     if not script_info:
         typer.echo(f"Script '{script_name}' not found", color=typer.colors.RED)
         raise typer.Exit(1)
-    
+
     # Validate script exists
     is_valid = script_manager.validate_script(script_name)
-    
+
     typer.echo(f"Script: {script_name}")
     typer.echo(f"Description: {script_info.get('description', 'No description')}")
     typer.echo(f"Category: {script_info.get('category', 'uncategorized')}")

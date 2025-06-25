@@ -20,3 +20,10 @@ enabled = true
 description = "Organize windows on screen"
 category = "system"
 subcategory = "window_management"
+
+[scripts.test_execution]
+path = "examples/test_execution.py"
+enabled = true
+description = "Test script for execution testing"
+category = "test"
+subcategory = "execution"
