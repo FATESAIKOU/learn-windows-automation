@@ -27,3 +27,31 @@ enabled = true
 description = "Test script for execution testing"
 category = "test"
 subcategory = "execution"
+
+[scripts.excel_data_processor]
+path = "examples/excel_data_processor.py"
+enabled = true
+description = "Advanced Excel data processing with charts and formatting"
+category = "office"
+subcategory = "excel"
+
+[scripts.powerpoint_batch_processor]
+path = "examples/powerpoint_batch_processor.py"
+enabled = true
+description = "Batch process PowerPoint presentations"
+category = "office"
+subcategory = "powerpoint"
+
+[scripts.multi_app_coordinator]
+path = "examples/multi_app_coordinator.py"
+enabled = true
+description = "Coordinate data flow between multiple applications"
+category = "automation"
+subcategory = "multi_app"
+
+[scripts.advanced_window_manager]
+path = "examples/advanced_window_manager.py"
+enabled = true
+description = "Advanced window management and workspace organization"
+category = "system"
+subcategory = "window_management"

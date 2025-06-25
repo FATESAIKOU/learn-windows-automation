@@ -20,7 +20,7 @@ def main() -> None:
         return
 
     command = sys.argv[1].lower()
-    
+
     try:
         if command == "get":
             text = WindowsUtils.get_clipboard_text()
@@ -28,22 +28,22 @@ def main() -> None:
                 print(f"Clipboard content: {text}")
             else:
                 print("Clipboard is empty or contains non-text data")
-        
+
         elif command == "set":
             if len(sys.argv) < 3:
                 print("Error: Please provide text to set")
                 return
-            
+
             text = " ".join(sys.argv[2:])
             success = WindowsUtils.set_clipboard_text(text)
             if success:
                 print(f"Successfully set clipboard to: {text}")
             else:
                 print("Failed to set clipboard text")
-        
+
         else:
             print(f"Unknown command: {command}")
-    
+
     except Exception as e:
         print(f"Error: {e}")
 

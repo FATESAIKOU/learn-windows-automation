@@ -15,14 +15,14 @@ def main() -> None:
     print("Window Organizer Example")
     print("This script would organize windows on the screen")
     print("Arguments received:", sys.argv[1:])
-    
+
     # For now, just demonstrate clipboard functionality
     print("\nTesting clipboard functionality:")
     try:
         # Get current clipboard content
         current_text = WindowsUtils.get_clipboard_text()
         print(f"Current clipboard: {current_text}")
-        
+
         # Set a test message
         test_message = "Window organizer was here!"
         success = WindowsUtils.set_clipboard_text(test_message)
@@ -30,7 +30,7 @@ def main() -> None:
             print(f"Set clipboard to: {test_message}")
         else:
             print("Failed to set clipboard")
-            
+
     except Exception as e:
         print(f"Error accessing clipboard: {e}")
 

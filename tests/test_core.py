@@ -1,8 +1,9 @@
 """Tests for core functionality."""
 
-import pytest
 from pathlib import Path
 from unittest.mock import MagicMock, patch
+
+import pytest
 
 from win_automation.core import ConfigManager, ScriptManager
 from win_automation.core.exceptions import ScriptExecutionError, ScriptNotFoundError
